@@ -29,12 +29,11 @@ if [ "$failed" -gt 0 ]; then
   issues="${issues}⚠️ ${failed} failed systemd service(s)\n"
 fi
 
-# Auth failures in last hour (security)
-if [ -r /var/log/auth.log ]; then
-  auth_fails=$(grep -c "authentication failure" /var/log/auth.log 2>/dev/null || echo 0)
-  if [ "$auth_fails" -gt 10 ]; then
-    issues="${issues}🔐 ${auth_fails} auth failures in log\n"
-  fi
+# Auth failures (security) - check journalctl
+auth_fails=$(journalctl -u ssh --since "1 hour ago" 2>/dev/null | grep -c "authentication failure" 2>/dev/null)
+auth_fails=${auth_fails:-0}
+if [ "$auth_fails" -gt 10 ] 2>/dev/null; then
+  issues="${issues}🔐 ${auth_fails} SSH auth failures in last hour\n"
 fi
 
 # Output
