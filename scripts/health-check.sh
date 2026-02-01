@@ -36,9 +36,9 @@ if [ "$f2b_bans" -gt 0 ] 2>/dev/null; then
   issues="${issues}🔐 ${f2b_bans} IP(s) currently banned by fail2ban\n"
 fi
 
-# Firewall status
-ufw_status=$(ufw status 2>/dev/null | head -1)
-if [[ ! "$ufw_status" =~ "active" ]]; then
+# Firewall status (check via systemctl since ufw status needs sudo)
+ufw_active=$(systemctl is-active ufw 2>/dev/null)
+if [[ "$ufw_active" != "active" ]]; then
   issues="${issues}🛡️ Firewall not active!\n"
 fi
 
