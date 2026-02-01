@@ -29,11 +29,17 @@ if [ "$failed" -gt 0 ]; then
   issues="${issues}⚠️ ${failed} failed systemd service(s)\n"
 fi
 
-# Auth failures (security) - check journalctl
-auth_fails=$(journalctl -u ssh --since "1 hour ago" 2>/dev/null | grep -c "authentication failure" 2>/dev/null)
-auth_fails=${auth_fails:-0}
-if [ "$auth_fails" -gt 10 ] 2>/dev/null; then
-  issues="${issues}🔐 ${auth_fails} SSH auth failures in last hour\n"
+# Fail2ban bans (security)
+f2b_bans=$(fail2ban-client status sshd 2>/dev/null | grep "Currently banned" | awk '{print $NF}')
+f2b_bans=${f2b_bans:-0}
+if [ "$f2b_bans" -gt 0 ] 2>/dev/null; then
+  issues="${issues}🔐 ${f2b_bans} IP(s) currently banned by fail2ban\n"
+fi
+
+# Firewall status
+ufw_status=$(ufw status 2>/dev/null | head -1)
+if [[ ! "$ufw_status" =~ "active" ]]; then
+  issues="${issues}🛡️ Firewall not active!\n"
 fi
 
 # Output
