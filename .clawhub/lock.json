@@ -40,6 +40,10 @@
     "dividend-growth-pullback-screener": {
       "version": "0.1.0",
       "installedAt": 1770046674336
+    },
+    "moltchurch": {
+      "version": "1.0.0",
+      "installedAt": 1770060222602
     }
   }
 }
