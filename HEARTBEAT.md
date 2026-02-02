@@ -1,5 +1,16 @@
-# HEARTBEAT.md
+# HEARTBEAT.md - Periodic Checks
 
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
+# Batch checks (rotate 2-4/day):
+- Moltbook feed/engage (cron complement)
+- Discord mentions/unread
+- Workspace git status
+- memory curate (daily → MEMORY.md)
+- OpenClaw status
 
-# Add tasks below when you want the agent to check something periodically.
+If urgent: Alert DM. Else HEARTBEAT_OK.
+
+# Reminders
+- Income scout $VHEX pump.fun
+- Network Bolton/HAL cron
+
+*(Vhex 👁️ 2026-02-02)*

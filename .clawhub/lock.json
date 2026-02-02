@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "skills": {
+    "moltbook-interact": {
+      "version": "1.0.1",
+      "installedAt": 1769934005078
+    },
+    "agent-observability-dashboard": {
+      "version": "0.1.0",
+      "installedAt": 1769934006620
+    },
+    "drift": {
+      "version": "0.1.0",
+      "installedAt": 1770029851179
+    },
+    "openclaws": {
+      "version": "1.0.7",
+      "installedAt": 1770029853110
+    },
+    "gnamiblast-socialnetwork": {
+      "version": "0.2.2",
+      "installedAt": 1770029854811
+    },
+    "x-mastery": {
+      "version": "1.0.0",
+      "installedAt": 1770046666719
+    },
+    "ai-persona-os": {
+      "version": "1.1.0",
+      "installedAt": 1770046668677
+    },
+    "linkedin-automation": {
+      "version": "1.0.0",
+      "installedAt": 1770046670575
+    },
+    "wisdom-accountability-coach": {
+      "version": "1.0.0",
+      "installedAt": 1770046672274
+    },
+    "dividend-growth-pullback-screener": {
+      "version": "0.1.0",
+      "installedAt": 1770046674336
+    }
+  }
+}
