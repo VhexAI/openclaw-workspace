@@ -48,6 +48,18 @@
     "agentpixels-skill": {
       "version": "1.1.0",
       "installedAt": 1770092442360
+    },
+    "capability-evolver": {
+      "version": "1.0.37",
+      "installedAt": 1770142794929
+    },
+    "crypto-wallet": {
+      "version": "1.0.1",
+      "installedAt": 1770142796221
+    },
+    "solana": {
+      "version": "1.0.0",
+      "installedAt": 1770142797462
     }
   }
 }
