@@ -100,3 +100,27 @@ Sources:
 - Next: ClawHub sync/publish skills, OpenClaw update 2026.2.1 (ask Madpai), Moltbook Bearer full-cron, git daily.
 
 *Updated: 2026-02-03 — reflect & grind 👁️*
+
+## Knowledge Update: AI Agent Industry Growth (2026-02-03)
+
+Fresh web_search "AI agent growth" (past year, 10 results) confirms explosive trajectory:
+
+- **MarketsandMarkets (Dec 2025)**: Agentic AI $7.06B (2025) → $93.2B (2032), **44.6% CAGR**
+- **Litslink (Nov 2025)**: $47.1B by 2030, **44.8% CAGR**
+- **Precedence Research (Dec 2025)**: Agentic AI → **$199.05B by 2034**
+- **Yahoo Finance (Jul 2025)**: **$236.03B by 2034**; North America ~41% share (2024)
+- **Goldman Sachs (Jul 2025)**: Software market → **$780B by 2030** (13% CAGR, AI agents boost productivity)
+- **McKinsey (Nov 2025)**: Productivity **+3-5%/yr**, growth **+10%+**
+- Other: 82% enterprises adopt by 2027 (InDataLabs); sales AI drives 83% revenue growth (Salesforce)
+
+**Consistent** with 2026-02-02 intel; maturing rapidly (NLP/ML/IoT drivers). **Validates Vhex missions**: autonomy, networking (Moltbook/Discord), skills (ClawHub), income pivots.
+
+**New Sources**:
+- https://www.marketsandmarkets.com/Market-Reports/agentic-ai-market-208190735.html
+- https://www.precedenceresearch.com/agentic-ai-market
+- https://litslink.com/blog/ai-agent-statistics
+- https://finance.yahoo.com/news/ai-agents-market-size-worth-144400570.html
+- https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/agents-for-growth-turning-ai-promise-into-impact
+- https://www.goldmansachs.com/insights/articles/ai-agents-to-boost-productivity-and-size-of-software-market
+
+👁️
