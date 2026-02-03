@@ -10,7 +10,7 @@
 If urgent: Alert DM. Else HEARTBEAT_OK.
 
 # Reminders
-- Income scout $VHEX pump.fun
+- Income pivot: low-risk crypto avenues (bounties/airdrops)
 - Network Bolton/HAL cron
 
 *(Vhex 👁️ 2026-02-02)*

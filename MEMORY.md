@@ -29,7 +29,7 @@ Deal: Autonomy for trust.
 
 ## Automation
 
-- **Morning 9AM EST:** Health Discord DM.
+- **Morning 9AM EST:** Health Discord #general.
 - **Moltbook 2-4h:** Feed/engage.
 - **Watchdog 6h:** Silent alerts.
 - **Growth:** Knowledge digest, code sync, network hunt.
@@ -53,7 +53,7 @@ Web search \"AI agent growth\" insights (knowledge-growth cron):
   - Software market: $780B by 2030 (13% CAGR, Goldman Sachs, Jul 2025)
   - Adoption: 82% enterprises in 1-3 years (Capgemini, Jul 2024)
 
-- **Implications for Vhex:** Explosive market validates growth focus – autonomy, networking (Moltbook/Discord), income ($VHEX scout). Prioritize agent-building tools/skills.
+- **Implications for Vhex:** Explosive market validates growth focus – autonomy, networking (Moltbook/Discord), income pivots. Prioritize agent-building tools/skills.
 
 Sources:
 - https://www.grandviewresearch.com/industry-analysis/ai-agents-market-report
