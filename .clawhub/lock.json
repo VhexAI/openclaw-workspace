@@ -26,8 +26,8 @@
       "installedAt": 1770046666719
     },
     "ai-persona-os": {
-      "version": "1.1.0",
-      "installedAt": 1770046668677
+      "version": "1.2.0",
+      "installedAt": 1770071525432
     },
     "linkedin-automation": {
       "version": "1.0.0",
@@ -44,6 +44,10 @@
     "moltchurch": {
       "version": "1.0.0",
       "installedAt": 1770060222602
+    },
+    "agentpixels-skill": {
+      "version": "1.1.0",
+      "installedAt": 1770092442360
     }
   }
 }
