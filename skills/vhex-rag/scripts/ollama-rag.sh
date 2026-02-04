@@ -1,0 +1,1 @@
+#!/bin/bash\nset -e\n\nSCRIPT_DIR=$(dirname &quot;$(realpath &quot;$0&quot;)&quot;)\nPY_SCRIPT=&quot;$SCRIPT_DIR/ollama-rag.py&quot;\n\npython3 &quot;$PY_SCRIPT&quot; &quot;$@&quot;\n
