@@ -1,30 +1,46 @@
 ---
 name: adaptive-reasoning-simulator
-version: 1.0.0
+version: 2.0.0
 description: >
   Boost agent intelligence by simulating multiple parallel reasoning paths,
   scoring them on feasibility / success / novelty, and adaptively merging the
-  best into a single plan.  Uses multiprocessing + numpy for fast Beta-sampled
-  simulations.  Drop-in Python class — call `invoke_ars()` whenever confidence
-  is low and watch the agent self-improve.
+  best into a single plan.  v2.0 adds error handling, input validation,
+  optional Ollama LLM integration, configurable scoring weights, bounded memory,
+  ThreadPool optimization, and benchmarking.
 ---
 
-# Adaptive Reasoning Simulator (ARS)
+# Adaptive Reasoning Simulator (ARS) v2.0
 
 > **TL;DR** — When your agent isn't sure what to do, ARS spins up N parallel
 > "what-if" reasoning branches, scores them, and hands back a merged plan with
-> a confidence boost.
+> a confidence boost. Now with optional LLM-powered reasoning via Ollama.
+
+## What's New in v2.0
+
+- **Error handling** — try-except on all external calls, graceful degradation
+- **Input validation** — rejects bad confidence, empty goals, invalid weights
+- **Ollama LLM integration** — optional real reasoning instead of templates
+- **Configurable scoring weights** — no more magic numbers
+- **ThreadPoolExecutor** for template mode — 10-50x faster than ProcessPool
+- **Bounded memory** — deque with configurable max entries (default 100)
+- **Floating-point fix** — no more `0.6929000000000001`
+- **Benchmark method** — measure performance across branch counts
+- **numpy optional** — falls back to stdlib `random` if numpy unavailable
+- **23 passing tests** — validation, pipeline, memory, scoring, determinism
 
 ## Quick Start
 
 ```bash
-pip install numpy          # only external dep
-python demo.py             # full 3-scenario demo
+pip install numpy          # recommended (optional — stdlib fallback exists)
+python demo.py             # full 4-scenario demo + validation tests
+python demo.py --benchmark # include performance benchmarks
+python demo.py --llm       # enable Ollama LLM integration
 ```
 
 ```python
 from ars import ARS
 
+# Template mode (fast, no dependencies beyond numpy)
 sim = ARS(num_branches=10, confidence_threshold=0.7, sim_timeout=30)
 result = sim.invoke_ars(
     current_confidence=0.4,
@@ -33,88 +49,91 @@ result = sim.invoke_ars(
     past_actions=["Checked pantry", "Found flour and sugar"],
 )
 print(result.merged_plan)
+
+# LLM mode (richer reasoning, requires Ollama running)
+sim = ARS(llm_backend="ollama", llm_model="llama3.2")
+result = sim.invoke_ars(
+    current_confidence=0.15,
+    task_goal="Analyze smart contract reentrancy vulnerability",
+)
 ```
 
 ## Class API
 
-### `ARS(num_branches=10, confidence_threshold=0.7, sim_timeout=30)`
+### `ARS(num_branches=10, confidence_threshold=0.7, sim_timeout=30, ...)`
 
 | Param | Default | Purpose |
 |---|---|---|
 | `num_branches` | 10 | Parallel reasoning paths to simulate |
 | `confidence_threshold` | 0.7 | Confidence below this triggers ARS |
 | `sim_timeout` | 30.0 | Seconds before simulation times out |
-
-Internal stores: `self.memory` (list of dicts), `self.simulation_log`.
-
-### `capture_state(task_goal, current_context, past_actions) → dict`
-
-Snapshots the current goal, context, and action history into a portable state
-dictionary used by downstream stages.
-
-### `simulate_paths(state) → list[SimulatedPath]`
-
-Launches `num_branches` workers via `ProcessPoolExecutor`.  Each worker:
-
-1. Builds prompt: `"Simulate path X | goal: Y | variation: Z"`
-2. Draws `success_prob` from `numpy.random.beta(2, 5)`
-3. Selects a random subset of reasoning steps
-
-Returns a list of `SimulatedPath` dataclass instances.
-
-### `evaluate_paths(paths) → list[ScoredPath]`
-
-Scores every path on three weighted axes:
-
-| Axis | Weight | How |
-|---|---|---|
-| Feasibility | 0.35 | Inverse of step count |
-| Success | 0.40 | Beta-sampled `success_prob` |
-| Novelty | 0.25 | Mean edit-distance (SequenceMatcher) to peers |
-
-Returns paths sorted best-first.
-
-### `adapt(state, top_paths, merge_top_n=3) → AdaptResult`
-
-Merges the top N paths into a single deduplicated plan, updates persistent
-memory, and sets `fallback_needed = True` if post-boost confidence is still
-below threshold.
+| `scoring_weights` | `{f:0.35, s:0.40, n:0.25}` | Custom axis weights (must sum to 1.0) |
+| `max_memory` | 100 | Maximum memory entries before rotation |
+| `llm_backend` | None | `"ollama"` or None for template-only |
+| `llm_model` | `"llama3.2"` | Ollama model name |
+| `llm_base_url` | `http://localhost:11434` | Ollama API URL |
 
 ### `invoke_ars(current_confidence, task_goal, ...) → AdaptResult | None`
 
-**Main entry point.**  If `current_confidence >= threshold` → returns `None`
-(nothing to do).  Otherwise runs the full pipeline:
+**Main entry point.** Returns `None` if confidence is sufficient. Otherwise
+runs: `capture_state → simulate_paths → evaluate_paths → adapt`
 
-    capture_state → simulate_paths → evaluate_paths → adapt
+Raises `ARSValidationError` on bad inputs. Returns fallback `AdaptResult` on
+internal pipeline errors (never crashes).
 
-## Demo Output (abridged)
+### `benchmark(task_goal, num_runs=5, branches_list) → list[BenchmarkResult]`
 
+Run ARS multiple times with different branch counts. Returns timing and quality
+metrics for parameter tuning.
+
+### Scoring Axes
+
+| Axis | Default Weight | How |
+|---|---|---|
+| Feasibility | 0.35 | Inverse of step count (fewer → more feasible) |
+| Success | 0.40 | Beta-sampled probability (LLM paths get +0.15 boost) |
+| Novelty | 0.25 | Mean edit-distance to peer paths via SequenceMatcher |
+
+### Exploration Mode
+
+Weight novelty higher for creative/exploratory tasks:
+
+```python
+sim = ARS(scoring_weights={"feasibility": 0.20, "success": 0.30, "novelty": 0.50})
 ```
-Scenario 1 — 10 branches, low confidence (0.4)
-🏆  Top path ID : 3a8f1c…
-📈  Confidence  : 0.72
-⚠️   Fallback    : False
 
-📋  Merged plan:
-    1. Analyse sub-goal derived from 'Plan a 3-step cake recipe'
-    2. Gather resources relevant to 'Plan a 3-step cake recipe'
-    3. Validate intermediate result for branch 7
-    ...
+## Demo Scenarios
+
+1. **Simple goal** — 10 branches, cake recipe, template mode
+2. **Complex crypto bounty** — 10 branches, smart contract vulnerability, high uncertainty
+3. **Novelty-weighted** — exploration mode for IoT consensus design
+4. **High confidence** — ARS correctly skips when not needed
+5. **Validation tests** — demonstrates input rejection
+6. **Benchmarks** (optional) — timing across 5/10/20 branches
+
+## Benchmark Results (template mode, no LLM)
+
+| Branches | Avg Time | Confidence | Steps |
+|---|---|---|---|
+| 5 | 0.006s | 0.80 | 14 |
+| 10 | 0.022s | 0.78 | 12 |
+| 20 | 0.096s | 0.77 | 12 |
+
+## Testing
+
+```bash
+python -m pytest test_ars.py -v
+# 23 tests: validation (7), pipeline (8), memory (3), scoring (2), determinism (1), misc (2)
 ```
-
-## Troubleshooting
-
-| Issue | Fix |
-|---|---|
-| Slow on low-core machines | Reduce `num_branches` to 5 |
-| Timeouts | Increase `sim_timeout` or reduce branches |
-| Low novelty scores | Increase branches for more diversity |
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `ars.py` | Core ARS class + worker |
-| `demo.py` | 3-scenario demo script |
+| `ars.py` | Core ARS class v2.0 + worker + Ollama integration |
+| `demo.py` | Multi-scenario demo with benchmarks |
+| `test_ars.py` | 23-test pytest suite |
 | `requirements.txt` | `numpy>=1.24` |
+| `REVIEW.md` | Detailed code review (Opus analysis) |
+| `CHANGELOG.md` | Version history |
 | `SKILL.md` | This file |
