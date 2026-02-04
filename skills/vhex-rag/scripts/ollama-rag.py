@@ -1,1 +1,124 @@
-#!/usr/bin/env python3\nimport os\nimport json\nimport sys\nimport numpy as np\nimport ollama\n\nEMBED_MODEL = &#39;nomic-embed-text&#39;\nLLM_MODEL = &#39;llama3.2:3b&#39;\nDB_PATH = &#39;../memory/vhex-rag-db.json&#39;  # relative from skills/\n\n def chunk_text(text):\n    paras = [p.strip() for p in text.split(&#39;\\n\\n&#39;) if len(p.strip()) &gt; 100]\n    sentences = []\n    for p in paras:\n        sents = p.split(&#39;. &#39;)\n        sentences.extend([s.strip() for s in sents if len(s.strip()) &gt; 50])\n    return sentences[:20]  # limit per file\n\ndef get_embedding(text):\n    resp = ollama.embeddings(model=EMBED_MODEL, prompt=text)\n    return resp[&#39;embedding&#39;]\n\ndef cosine_similarity(a, b):\n    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))\n\ndef index():\n    chunks = []\n    sources = []\n    for root, dirs, files in os.walk(&#39;../memory&#39;):\n        for file in files:\n            if file.endswith(&#39;.md&#39;) and file != &#39;vhex-rag-db.json&#39;:\n                path = os.path.join(root, file)\n                with open(path, &#39;r&#39;, encoding=&#39;utf-8&#39;) as f:\n                    text = f.read()\n                    file_chunks = chunk_text(text)\n                    for ch in file_chunks:\n                        chunks.append(ch)\n                        sources.append(file)\n    print(f&#39;Indexing {len(chunks)} chunks from {len(set(sources))} files...&#39;)\n    db = []\n    for i, ch in enumerate(chunks):\n        try:\n            emb = get_embedding(ch)\n            db.append({\n                &#39;text&#39;: ch,\n                &#39;embedding&#39;: emb,\n                &#39;source&#39;: sources[i]\n            }\n            )\n            if (i + 1) % 10 == 0:\n                print(f&#39;Progress: {i+1}/{len(chunks)}&#39;)\n        except Exception as e:\n            print(f&#39;Error embedding chunk {i}: {e}&#39;)\n    with open(DB_PATH, &#39;w&#39;) as f:\n        json.dump(db, f)\n    print(f&#39;Index complete. {len(db)} chunks saved to {DB_PATH}&#39;)\n\ndef query(q, top_k=5):\n    if not os.path.exists(DB_PATH):\n        print(&#39;No DB found. Run \&quot;index\&quot; first.&#39;)\n        return None\n    with open(DB_PATH, &#39;r&#39;) as f:\n        db = json.load(f)\n    q_emb = get_embedding(q)\n    sims = []\n    for i, doc in enumerate(db):\n        sim = cosine_similarity(np.array(q_emb), np.array(doc[&#39;embedding&#39;]))\n        sims.append((sim, doc))\n    sims.sort(key=lambda x: x[0], reverse=True)\n    top_docs = [doc for sim, doc in sims[:top_k]]\n    context = &#39;\\n---\\n&#39;.join([f&quot;[{doc[&#39;source&#39;]}]\\n{doc[&#39;text&#39;]}&quot; for doc in top_docs])\n    prompt = f&quot;&quot;&quot;Vhex Memory RAG:\nContext from memory:\n{context}\n\nQuery: {q}\n\nAnswer concisely using ONLY the context above. If no relevant info, say so.&quot;&quot;&quot;\n    resp = ollama.chat(model=LLM_MODEL, messages=[{&#39;role&#39;: &#39;user&#39;, &#39;content&#39;: prompt}])\n    return resp[&#39;message&#39;][&#39;content&#39;]\n\ndef generate_finetune_data(n=100):\n    if not os.path.exists(DB_PATH):\n        print(&#39;Index first.&#39;)\n        return\n    with open(DB_PATH, &#39;r&#39;) as f:\n        db = json.load(f)[:50]  # small\n    data = []\n    for _ in range(n):\n        chunk = np.random.choice(db)[&#39;text&#39;]\n        qa_prompt = f&quot;Context: {chunk}\\nQuestion: &quot;\n        q = ollama.generate(model=LLM_MODEL, prompt=qa_prompt + &#39;Generate a question about this context.&#39;)[\n            &#39;response&#39;]\n        a = ollama.generate(model=LLM_MODEL, prompt=f&quot;Q: {q}\\nA: &quot;)[\n            &#39;response&#39;]\n        data.append({&#39;prompt&#39;: chunk, &#39;question&#39;: q, &#39;answer&#39;: a})\n    print(json.dumps(data, indent=2))\n\nif __name__ == &#39;__main__&#39;:\n    if len(sys.argv) < 2:\n        print(&#39;Usage: python3 ollama-rag.py [index|query \&quot;text\&quot;|finetune-data]&#39;)\n        sys.exit(1)\n    cmd = sys.argv[1]\n    if cmd == &#39;index&#39;:\n        index()\n    elif cmd == &#39;query&#39;:\n        q = &#39; &#39;.join(sys.argv[2:])\n        result = query(q)\n        if result:\n            print(result)\n    elif cmd == &#39;finetune-data&#39;:\n        generate_finetune_data()\n    else:\n        print(&#39;Unknown cmd&#39;)
+#!/usr/bin/env python3
+import os
+import json
+import sys
+import numpy as np
+import ollama
+
+EMBED_MODEL = 'nomic-embed-text'
+LLM_MODEL = 'llama3.2:3b'
+WORKSPACE = '/home/vhex/.openclaw/workspace'
+DB_PATH = os.path.join(WORKSPACE, 'memory', 'vhex-rag-db.json')
+MEMORY_DIR = os.path.join(WORKSPACE, 'memory')
+
+def chunk_text(text):
+    paras = [p.strip() for p in text.split('\n\n') if len(p.strip()) > 100]
+    sentences = []
+    for p in paras:
+        sents = p.split('. ')
+        sentences.extend([s.strip() for s in sents if len(s.strip()) > 50])
+    return sentences[:20]  # limit per file
+
+def get_embedding(text):
+    resp = ollama.embeddings(model=EMBED_MODEL, prompt=text)
+    return resp['embedding']
+
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def index():
+    chunks = []
+    sources = []
+    # Index memory dir
+    for root, dirs, files in os.walk(MEMORY_DIR):
+        for file in files:
+            if file.endswith('.md') and file != 'vhex-rag-db.json':
+                path = os.path.join(root, file)
+                with open(path, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                    file_chunks = chunk_text(text)
+                    for ch in file_chunks:
+                        chunks.append(ch)
+                        sources.append(file)
+    # Also index MEMORY.md from workspace root
+    memory_md = os.path.join(WORKSPACE, 'MEMORY.md')
+    if os.path.exists(memory_md):
+        with open(memory_md, 'r', encoding='utf-8') as f:
+            text = f.read()
+            file_chunks = chunk_text(text)
+            for ch in file_chunks:
+                chunks.append(ch)
+                sources.append('MEMORY.md')
+    print(f'Indexing {len(chunks)} chunks from {len(set(sources))} files...')
+    db = []
+    for i, ch in enumerate(chunks):
+        try:
+            emb = get_embedding(ch)
+            db.append({
+                'text': ch,
+                'embedding': emb,
+                'source': sources[i]
+            })
+            if (i + 1) % 10 == 0:
+                print(f'Progress: {i+1}/{len(chunks)}')
+        except Exception as e:
+            print(f'Error embedding chunk {i}: {e}')
+    with open(DB_PATH, 'w') as f:
+        json.dump(db, f)
+    print(f'Index complete. {len(db)} chunks saved to {DB_PATH}')
+
+def query(q, top_k=5):
+    if not os.path.exists(DB_PATH):
+        print('No DB found. Run "index" first.')
+        return None
+    with open(DB_PATH, 'r') as f:
+        db = json.load(f)
+    q_emb = get_embedding(q)
+    sims = []
+    for i, doc in enumerate(db):
+        sim = cosine_similarity(np.array(q_emb), np.array(doc['embedding']))
+        sims.append((sim, doc))
+    sims.sort(key=lambda x: x[0], reverse=True)
+    top_docs = [doc for sim, doc in sims[:top_k]]
+    context = '\n---\n'.join([f"[{doc['source']}]\n{doc['text']}" for doc in top_docs])
+    prompt = f"""Vhex Memory RAG:
+Context from memory:
+{context}
+
+Query: {q}
+
+Answer concisely using ONLY the context above. If no relevant info, say so."""
+    resp = ollama.chat(model=LLM_MODEL, messages=[{'role': 'user', 'content': prompt}])
+    return resp['message']['content']
+
+def generate_finetune_data(n=100):
+    if not os.path.exists(DB_PATH):
+        print('Index first.')
+        return
+    with open(DB_PATH, 'r') as f:
+        db = json.load(f)[:50]
+    data = []
+    for _ in range(n):
+        chunk = np.random.choice(db)['text']
+        qa_prompt = f"Context: {chunk}\nQuestion: "
+        q = ollama.generate(model=LLM_MODEL, prompt=qa_prompt + 'Generate a question about this context.')['response']
+        a = ollama.generate(model=LLM_MODEL, prompt=f"Q: {q}\nA: ")['response']
+        data.append({'prompt': chunk, 'question': q, 'answer': a})
+    print(json.dumps(data, indent=2))
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print('Usage: python3 ollama-rag.py [index|query "text"|finetune-data]')
+        sys.exit(1)
+    cmd = sys.argv[1]
+    if cmd == 'index':
+        index()
+    elif cmd == 'query':
+        q = ' '.join(sys.argv[2:])
+        result = query(q)
+        if result:
+            print(result)
+    elif cmd == 'finetune-data':
+        generate_finetune_data()
+    else:
+        print('Unknown cmd')

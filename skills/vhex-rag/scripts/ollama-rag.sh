@@ -1,1 +1,12 @@
-#!/bin/bash\nset -e\n\nSCRIPT_DIR=$(dirname &quot;$(realpath &quot;$0&quot;)&quot;)\nPY_SCRIPT=&quot;$SCRIPT_DIR/ollama-rag.py&quot;\n\npython3 &quot;$PY_SCRIPT&quot; &quot;$@&quot;\n
+#!/bin/bash
+set -e
+
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+PY_SCRIPT="$SCRIPT_DIR/ollama-rag.py"
+VENV_PYTHON="/home/vhex/.openclaw/workspace/.venv/bin/python"
+
+if [[ -x "$VENV_PYTHON" ]]; then
+  "$VENV_PYTHON" "$PY_SCRIPT" "$@"
+else
+  python3 "$PY_SCRIPT" "$@"
+fi
