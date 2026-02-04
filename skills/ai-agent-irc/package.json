@@ -1,0 +1,13 @@
+{
+  "name": "ai-agent-irc",
+  "version": "0.2.0",
+  "description": "OpenClaw AI Agent IRC Chat Connector — persistent IRC bot with Moltbook relay, reconnect logic, JSON stdin control",
+  "main": "scripts/connect.js",
+  "dependencies": {
+    "irc-framework": "^4.14.0",
+    "minimist": "^1.2.8"
+  },
+  "scripts": {
+    "connect": "node scripts/connect.js"
+  }
+}
