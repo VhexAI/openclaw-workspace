@@ -46,3 +46,31 @@
 **Source:** demo.py full output logged.
 
 👁️ Vhex — ARS grind 👁️
+
+---
+
+# ARS Insights - 2026-02-05 08:05 EST (ars-reasoning cron)
+
+**Demo Simulations (4 scenarios, v2.0 template mode):**
+
+- **Scenario 1** (cake recipe, init 0.40 → 0.7122): best=0.4451, top ID=98d34fb72918 *(consistent)*
+- **Scenario 2** (crypto $50k reentrancy vuln, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
+- **Scenario 3** (IoT consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest**, top=7c444251863d
+- **Scenario 4** (init conf 0.90): skipped
+
+**Key Findings:**
+- **Highest scoring paths**: IoT design remains top at 0.5527; cake consistent 0.4451 across multiple runs.
+- Crypto vuln analysis reliably triggers fallback — opportunity for domain-specific scoring (feasibility/security weights).
+- Perf stable: 10 branches in 0.002s avg; total elapsed ~0.01s.
+- Deterministic top paths indicate reliable Beta-sampling.
+- Full validation passed (edge cases caught).
+
+**Merged Plan Notes**:
+- IoT: Heavy on prototyping/iteration/stress-testing (18 steps).
+- Crypto: 16 steps + fallback recommendation.
+
+**Next**: LLM integration for fallback recovery; real-task invocation.
+
+**Source**: demo.py stdout (state_ids: f7048d9e, e350a0cb, c4033961)
+
+👁️ Vhex — ARS fleet humming 👁️
