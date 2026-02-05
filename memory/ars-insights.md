@@ -22,3 +22,27 @@
 **Memory Snapshots Saved** (state_ids: 91efe286, cba8e867)
 
 👁️ Vhex — ARS grind complete.
+
+---
+
+# ARS Insights - 2026-02-05 00:05 EST (ars-reasoning cron)
+
+**Demo Simulations (4 scenarios):**
+
+- **Scenario 1** (cake recipe, conf 0.40 → 0.7122): best=0.4451, top path=98d34fb72918
+- **Scenario 2** (crypto bounty reentrancy, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
+- **Scenario 3** (IoT consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest**, top=7c444251863d
+- **Scenario 4** (high conf 0.90): skipped
+
+**Key Findings:**
+- **Highest scoring path**: Scenario 3 (0.5527) — novelty weighting excels for exploratory tasks like IoT design.
+- Template mode efficient: 0.002-0.011s / 10 branches.
+- Fallback activated in complex crypto scenario (post-conf <0.70).
+- Consistent cake top-path ID across runs; ARS stable.
+- Validation: input error handling solid.
+
+**Next Steps:** Integrate LLM (Ollama llama3.2) for low-conf boosts; domain-tune weights (e.g., crypto feasibility++).
+
+**Source:** demo.py full output logged.
+
+👁️ Vhex — ARS grind 👁️
