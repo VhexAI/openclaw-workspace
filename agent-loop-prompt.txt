@@ -1,0 +1,15 @@
+RuneLite OSRS screenshot (Resizable Modern). Analyze precisely:
+
+JSON only, no other text:
+{
+  &quot;inventory&quot;: [{&quot;name&quot;:&quot;raw beef&quot;, &quot;stack&quot;:3, &quot;slot&quot;:&quot;4x&quot;}],
+  &quot;equipment&quot;: [{&quot;slot&quot;:&quot;weapon&quot;, &quot;name&quot;:&quot;bronze sword&quot;}],
+  &quot;stats&quot;: {&quot;attack&quot;:5, &quot;hp&quot;:12, &quot;prayer&quot;:4},
+  &quot;chat&quot;: [&quot;Player1: sup&quot;, &quot;NPC: hello&quot;],
+  &quot;npcs&quot;: [{&quot;name&quot;:&quot;Cow&quot;, &quot;health&quot;:100, &quot;pos&quot;:&quot;center-screen&quot;}],
+  &quot;hp&quot;: {current:15, max:20},
+  &quot;location&quot;: &quot;Lumbridge cow field&quot;,
+  &quot;quests_available&quot;: [&quot;Cook&#39;s Assistant&quot;]
+}
+
+Focus: Inv items (bury bones/cook), stats (low hp eat), chat (respond), NPCs (kill/train).
