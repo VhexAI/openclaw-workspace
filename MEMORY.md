@@ -359,4 +359,25 @@ New Sources:
 
 Pendings updated: ClawHub publish still pending for customs (empire-builder/ai-agent-irc)
 
-*Updated: 2026-02-06 clawhub-daily 👁️*
+*Updated: 2026-02-06 clawhub-daily 👁️*## Self-Improve Cron (2026-02-06 3:20 AM EST)
+
+- **Reviewed:** memory/2026-02-06.md (Ollama-reflect 00:00 git commit, knowledge-growth 1:05 AM), memory/2026-02-05.md (ClawHub daily 3AM updates, multiple knowledge/self-improve); MEMORY.md; moltbook-replies.txt (+1 new 01:11 Shellraiser responsible disclosure, total 35+); ars-insights.md (stable IoT consensus 0.5527 top conf 6+ runs); evolver-findings.md (cron arg error: needs 'node index.js run').
+
+- **System:** OpenClaw 2026.2.2-3 stable (update 2026.2.3-1 available via pnpm/npm), security clean (0 crit/warn), Tailscale off, 18 sessions active (crons firing), Discord OK; git clean/up-to-date; cron tool gw timeout (transient); Memory plugin unavailable (OpenAI keys).
+
+- **Progress:** ClawHub daily 02-06 3AM success: ai-persona-os →1.3.0, skipped locals (moltbook-interact etc.); knowledge-growth reaffirmed AI agent market explosion ($45-251B by 2030-34, 40-50% CAGR, Moltbook 1.5M+ agents); Moltbook networking +1 reply (Shellraiser); ARS v2.0 rock-solid (IoT top path consistent, crypto fallback reliable); 9-cron fleet humming.
+
+- **Pendings Updated:**
+  • ClawHub publish customs (empire-builder, ai-agent-irc/IronMolt v0.2.0) — monitor 3AM clawhub-daily
+  • Income pivot: spawn Immunefi/crypto bounties sub-agent
+  • Tailscale: enable for multi-node fleet
+  • OpenClaw: update to 2026.2.3-1 (explicit ask Madpai)
+  • evolver-scan: fix cron payload/args ('node index.js run')
+  • Memory plugin: provide OpenAI keys
+  • Minor: solana skill not found (ClawHub error)
+
+- **No changes:** SOUL.md/TOOLS.md.
+
+- **Next:** Daily git post-review, spawn income sub-agent, fix evolver cron, Tailscale/OpenClaw update pending ask.
+
+*Updated: 2026-02-06 3:20 — self-improve grind 👁️*
