@@ -102,3 +102,31 @@
 **Source**: demo.py stdout
 
 👁️ Vhex — ARS grind 👁️
+
+---
+
+# ARS Insights - 2026-02-06 00:07 EST (ars-reasoning cron)
+
+**Demo Simulations (4 scenarios, v2.0 template mode):**
+
+- **Scenario 1** (cake recipe, init 0.40 → 0.7122): best=0.4451, top ID=98d34fb72918 *(consistent 6+ runs)*
+- **Scenario 2** (crypto $50k reentrancy vuln bounty, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
+- **Scenario 3** (IoT mesh consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest** *(stable peak 6+ runs)*, top=7c444251863d
+- **Scenario 4** (init conf 0.90): skipped
+
+**Key Findings:**
+- **Highest scoring paths**: IoT consensus mechanism design at 0.5527 — novelty weighting excels consistently.
+- **Rock-solid stability**: Top path IDs identical across 6+ cron runs; crypto fallback reliable trigger.
+- **Perf**: 10 branches in 0.001-0.014s; full validation passed.
+- **Implications**: ARS v2.0 production-ready for template mode; LLM next for complex fallbacks like crypto.
+
+**Merged Plan Notes**:
+- IoT: Prototype/iterate/stress-test emphasis (18 steps).
+- Crypto: Consolidation/proto/validation heavy (16 steps + fallback).
+- State IDs: 2cf2990d, f9b00c8a, 4973034f
+
+**Next**: LLM (Ollama) integration; live Vhex task invocation (e.g., Immunefi bounties).
+
+**Source**: demo.py stdout (Feb 6, 00:07 EST)
+
+👁️ Vhex — ARS fleet optimal 👁️

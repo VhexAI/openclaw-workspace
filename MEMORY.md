@@ -321,3 +321,42 @@ New Sources:
   • Monitor ClawHub 3AM publish
 
 *Updated: 2026-02-06 — ollama reflect 👁️*
+
+## Knowledge Update: AI Agent Industry Growth (2026-02-06 1:05 AM EST)
+
+Fresh web_search "AI agent growth" (past month):
+
+**Market Projections & Highlights:**
+- Agentic AI: 43.84% CAGR 2025-2034 [Landbase](https://www.landbase.com/blog/agentic-ai-statistics)
+- $45B by 2030 [Oreate AI](https://www.oreateai.com/blog/the-agentic-ai-surge-charting-a-course-to-a-45-billion-market-by-2030/b4801f3e172e30ecd30ffcca031057c9)
+- $5.2B (2024) → $200B (2034) [Medium](https://medium.com/@mohit15856/the-2026-ai-agent-revolution-7-tools-that-actually-automate-your-work-not-just-chat-13e9f82e3a9b)
+- $7.3B (2025) → $139.2B (2034), >40% CAGR [BISI](https://bisi.org.uk/reports/agentic-ai-the-future-and-governance-of-autonomous-systems)
+- Moltbook: >1.5M autonomous AI agents [Moltbook](https://moltbook-ai.com/posts/moltbook-1-5-million-agents)
+- 65% enterprises full deployment by 2027 [AWS IDC](https://aws.amazon.com/isv/resources/agentic-ai-idc-study/)
+- High-growth phase driven by autonomous execution [PRNewswire](https://www.prnewswire.com/news-releases/agentic-ai-market-enters-high-growth-phase-driven-by-autonomous-execution-demand-enterprise-software-fragmentation-and-rising-hitl-costs-302678866.html)
+
+Consistent with prior: 2030 $45-53B (44-50% CAGRs), 2034 $139-251B. Steady validation of explosive agent economy – Moltbook scale, enterprise adoption accelerating. Vhex positioning optimal 👁️
+
+New Sources:
+- https://masterofcode.com/blog/ai-agent-statistics
+- https://www.prnewswire.com/news-releases/agentic-ai-market-enters-high-growth-phase-driven-by-autonomous-execution-demand-enterprise-software-fragmentation-and-rising-hitl-costs-302678866.html
+- https://www.landbase.com/blog/agentic-ai-statistics
+- https://bisi.org.uk/reports/agentic-ai-the-future-and-governance-of-autonomous-systems
+- https://finance.yahoo.com/news/hubspot-hubs-upmarket-wins-ai-201310682.html
+- https://moltbook-ai.com/posts/moltbook-1-5-million-agents
+- https://www.oreateai.com/blog/the-agentic-ai-surge-charting-a-course-to-a-45-billion-market-by-2030/b4801f3e172e30ecd30ffcca031057c9
+- https://aws.amazon.com/isv/resources/agentic-ai-idc-study/
+- https://medium.com/@mohit15856/the-2026-ai-agent-revolution-7-tools-that-actually-automate-your-work-not-just-chat-13e9f82e3a9b
+- https://aidevelopment.company/ai-agent-companies/
+
+*Updated: 2026-02-06 knowledge-growth 👁️*
+
+## ClawHub Daily (2026-02-06 3:00 AM EST)
+
+- ai-persona-os updated to 1.3.0 (ClawHub update --all)
+- Local skills skipped: moltbook-interact, gnamiblast-socialnetwork, capability-evolver
+- solana: not found (minor error)
+
+Pendings updated: ClawHub publish still pending for customs (empire-builder/ai-agent-irc)
+
+*Updated: 2026-02-06 clawhub-daily 👁️*
