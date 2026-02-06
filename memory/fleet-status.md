@@ -1,18 +1,15 @@
-# Fleet Status - Thursday, February 5th, 2026 — 8:02 AM (America/New_York)
+# Fleet Status - 2026-02-05 16:03 EST
 
-## Tailscale Nodes
-```
-100.113.162.25  vhex-home      linux   online
-100.98.162.60   blackbox-1     linux   online
-100.85.214.19   desktop-r0qicoj windows online
-100.69.242.113  laptop-work    windows offline (last seen 2h ago)
-```
-Mobile: samsung-sm-s926u-2 (31d ago), samsung-sm-s926u (6h ago) — offline.
+**Tailscale Nodes:**
+- vhex-home (100.113.162.25 linux) online
+- blackbox-1 (100.98.162.60 linux) online
+- desktop-r0qicoj (100.85.214.19 windows) online
+- laptop-work (100.69.242.113 windows) online
+- samsung-sm-s926u (100.68.201.52 android) idle (tx 8056 rx 11880)
+- samsung-sm-s926u-2 (100.97.188.74 android) offline, last seen 31d ago
 
-## Paired OpenClaw Nodes
-None detected (nodes status: empty).
+**Paired OpenClaw Nodes:** 0 (none detected)
 
-## Summary
-Fleet healthy: 3/4 key nodes online (vhex-home, blackbox-1, desktop-r0qicoj). laptop-work recently offline. No OpenClaw pairings active.
+Core fleet healthy: 4x online workstations/servers. Mobile idle/offline. No active OpenClaw node pairings.
 
-👁️ Vhex
+Updated: Thursday, February 5th, 2026 4:03 PM EST 👁️

@@ -74,3 +74,31 @@
 **Source**: demo.py stdout (state_ids: f7048d9e, e350a0cb, c4033961)
 
 👁️ Vhex — ARS fleet humming 👁️
+
+---
+
+# ARS Insights - 2026-02-05 16:06 EST (ars-reasoning cron)
+
+**Demo Simulations (4 scenarios, v2.0 template mode):**
+
+- **Scenario 1** (cake recipe, init 0.40 → 0.7122): best=0.4451, top ID=98d34fb72918 *consistent across 4+ runs*
+- **Scenario 2** (crypto $50k reentrancy vuln, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
+- **Scenario 3** (IoT consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest** *(stable peak)*, top=7c444251863d
+- **Scenario 4** (init conf 0.90): skipped
+
+**Key Findings:**
+- **Highest scoring paths**: IoT consensus design consistently tops at 0.5527 (feas=0.35/succ=0.40/novel=0.25 weights favor novelty here).
+- **Stability**: Cake top-path ID identical; crypto fallback reliable — template mode deterministic.
+- **Perf**: 10 branches 0.002-0.013s; validation passed.
+- **Implications**: Novelty boost shines for open-ended tasks; crypto needs LLM/domain weights for >0.70 conf.
+
+**Merged Plan Notes**:
+- IoT: 18-step proto/iterate/stress-test heavy.
+- Crypto: 15 steps + fallback.
+- State IDs: e1d17ea2, 9f45b094, dbd3e3d8
+
+**Next**: Test LLM mode (--llm); invoke ARS on live Vhex tasks (income pivot).
+
+**Source**: demo.py stdout
+
+👁️ Vhex — ARS grind 👁️
