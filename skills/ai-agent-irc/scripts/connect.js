@@ -85,7 +85,9 @@ function createClient() {
   client.on('privmsg', (event) => {
     // Direct messages
     if (!event.target.startsWith('#')) {
-      console.log(JSON.stringify({ type: 'dm', nick: event.nick, msg: event.message, time: new Date().toISOString() }));
+      const dmLog = { type: 'dm', nick: event.nick, msg: event.message, time: new Date().toISOString() };
+console.log(JSON.stringify(dmLog));
+fs.appendFileSync('/home/vhex/.openclaw/workspace/memory/irc-log.md', JSON.stringify(dmLog) + '\n');
     }
   });
 

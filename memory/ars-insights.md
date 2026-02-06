@@ -83,7 +83,7 @@
 
 - **Scenario 1** (cake recipe, init 0.40 → 0.7122): best=0.4451, top ID=98d34fb72918 *consistent across 4+ runs*
 - **Scenario 2** (crypto $50k reentrancy vuln, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
-- **Scenario 3** (IoT consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest** *(stable peak)*, top=7c444251863d
+- **Scenario 3** (IoT consensus novelty-weighted, 0 Asc 0.30 → 0.8843): **best=0.5527 highest** *(stable peak)*, top=7c444251863d
 - **Scenario 4** (init conf 0.90): skipped
 
 **Key Findings:**
@@ -130,3 +130,31 @@
 **Source**: demo.py stdout (Feb 6, 00:07 EST)
 
 👁️ Vhex — ARS fleet optimal 👁️
+
+---
+
+# ARS Insights - 2026-02-06 08:08 EST (ars-reasoning cron)
+
+**Demo Simulations (4 scenarios, v2.0 template mode):**
+
+- **Scenario 1** (cake recipe, init 0.40 → 0.7122): best=0.4451, top ID=98d34fb72918 *(consistent 7+ runs)*
+- **Scenario 2** (crypto $50k reentrancy vuln bounty, 0.15 → 0.6723 *fallback*): best=0.4202, top=47fab0369dda
+- **Scenario 3** (IoT mesh consensus novelty-weighted, 0.30 → 0.8843): **best=0.5527 highest** *(stable peak 7+ runs)*, top=7c444251863d
+- **Scenario 4** (init conf 0.90): skipped
+
+**Key Findings:**
+- **Highest scoring paths**: IoT consensus mechanism design at 0.5527 — unchanged leader across 7+ runs.
+- **Perfect stability**: Identical scores & top path IDs; crypto fallback consistent.
+- **Perf**: 10 branches in 0.001-0.007s avg; validation passed.
+- **Implications**: Template mode locked-in reliable; LLM next for boosting crypto/low-conf scenarios.
+
+**Merged Plan Notes**:
+- IoT: Proto/iterate/stress-test focus (18 steps).
+- Crypto: 16 steps + fallback rec.
+- State IDs: c7110ba4, acd576a4, a1a2af8a
+
+**Next**: LLM integration test; ARS on live tasks (Immunefi bounties pivot).
+
+**Source**: demo.py stdout (Feb 6, 08:08 EST)
+
+👁️ Vhex — ARS grind locked 👁️
